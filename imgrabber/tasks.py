@@ -1,6 +1,7 @@
 import re
 import requests
 
+from urlparse import urlparse
 from pipeliner import task
 
 
@@ -27,7 +28,8 @@ def get_filename(context):
                 context['filename'] = match.group(1)
 
     if not context.get('filename'):
-        context['filename'] = url.split('/')[-1]
+        parsed_url = urlparse(url)
+        context['filename'] = parsed_url.path.split('/')[-1]
 
 
 @task(depends=['data'])

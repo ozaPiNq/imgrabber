@@ -28,6 +28,8 @@ class TestGetFilename(object):
         ('http://example.com/setup.exe',                'setup.exe'),
         ('http://example.com/s/a/w/e/r/t/file.txt',     'file.txt'),
         ('http://example.com/index.php',                'index.php'),
+        ('http://example.com/',                         ''),
+        ('http://example.com',                          ''),
     ])
     def test_get_filename_from_url(self, context, url, expected_filename):
         context['url'] = url
