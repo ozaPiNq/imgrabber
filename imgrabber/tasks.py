@@ -13,6 +13,11 @@ def fetch_url(context):
     context['data'] = result.text
 
 
+@task(depends=['url', 'headers'], provides=['filename'])
+def get_filename(context):
+    pass
+
+
 @task(depends=['data'])
 def save_file(context):
     pass
