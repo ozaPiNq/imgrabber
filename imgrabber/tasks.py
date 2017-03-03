@@ -1,3 +1,4 @@
+import re
 import requests
 
 from pipeliner import task
@@ -19,9 +20,13 @@ def get_filename(context):
     headers = context.get('headers', {})
 
     if 'Content-Disposition' in headers:
-        pass
+        cd = headers.get('Content-Disposition')
+        if cd:
+            match = re.search('filename="([^"]*)"', cd)
+            if match:
+                context['filename'] = match.group(1)
 
-    else:
+    if not context.get('filename'):
         context['filename'] = url.split('/')[-1]
 
 

@@ -36,7 +36,6 @@ class TestGetFilename(object):
 
         assert new_context['filename'] == expected_filename
 
-    @pytest.mark.xfail
     @pytest.mark.parametrize("cd, expected_filename ", [
         ('inline',                                          'picturename.jpg'),
         ('attachment',                                      'picturename.jpg'),
