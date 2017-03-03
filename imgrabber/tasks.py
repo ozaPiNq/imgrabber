@@ -15,7 +15,14 @@ def fetch_url(context):
 
 @task(depends=['url', 'headers'], provides=['filename'])
 def get_filename(context):
-    pass
+    url = context.get('url')
+    headers = context.get('headers', {})
+
+    if 'Content-Disposition' in headers:
+        pass
+
+    else:
+        context['filename'] = url.split('/')[-1]
 
 
 @task(depends=['data'])

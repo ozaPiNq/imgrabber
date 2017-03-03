@@ -23,6 +23,19 @@ class TestFetchUrl(object):
 
 
 class TestGetFilename(object):
+    @pytest.mark.parametrize("url,expected_filename", [
+        ('http://example.com/somefile.jpg',             'somefile.jpg'),
+        ('http://example.com/setup.exe',                'setup.exe'),
+        ('http://example.com/s/a/w/e/r/t/file.txt',     'file.txt'),
+        ('http://example.com/index.php',                'index.php'),
+    ])
+    def test_get_filename_from_url(self, context, url, expected_filename):
+        context['url'] = url
+
+        new_context = tasks.get_filename()(context)
+
+        assert new_context['filename'] == expected_filename
+
     @pytest.mark.xfail
     @pytest.mark.parametrize("cd, expected_filename ", [
         ('inline',                                          'picturename.jpg'),
