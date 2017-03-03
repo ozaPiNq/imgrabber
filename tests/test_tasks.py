@@ -53,3 +53,21 @@ class TestGetFilename(object):
         new_context = tasks.get_filename()(context)
 
         new_context['filename'] == expected_filename
+
+
+class TestSaveFile(object):
+    @pytest.mark.xfail
+    def test_file_with_filename(self, context):
+        assert 0, 'write the test'
+
+    @pytest.mark.xfail
+    def test_file_without_filename(self, context):
+        assert 0, 'write the test'
+
+    @pytest.mark.xfail
+    def test_folder_not_found(self, context):
+        assert 0, 'write the test'
+
+    @pytest.mark.xfail
+    def test_folder_access_denied(self, context):
+        assert 0, 'write the test'
