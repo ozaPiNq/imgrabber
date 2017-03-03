@@ -1,11 +1,12 @@
 import pytest
 
 from mock import MagicMock
+from pipeliner.context import Context
 
 
 @pytest.fixture
 def context():
-    return {}
+    return Context()
 
 
 @pytest.fixture
