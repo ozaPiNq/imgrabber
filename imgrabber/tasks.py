@@ -33,12 +33,11 @@ def get_filename(context):
     url = context.get('url')
     headers = context.get('headers', {})
 
-    if 'Content-Disposition' in headers:
-        cd = headers.get('Content-Disposition')
-        if cd:
-            match = re.search('filename="([^"]*)"', cd)
-            if match:
-                context['filename'] = match.group(1)
+    cd = headers.get('Content-Disposition')
+    if cd:
+        match = re.search('filename="([^"]*)"', cd)
+        if match:
+            context['filename'] = match.group(1)
 
     if not context.get('filename'):
         parsed_url = urlparse(url)
