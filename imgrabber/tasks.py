@@ -12,8 +12,6 @@ def fetch_url(context):
     context['headers'] = result.headers
     context['data'] = result.text
 
-    return context
-
 
 @task(depends=['data'])
 def save_file(context):
