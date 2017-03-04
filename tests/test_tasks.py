@@ -80,9 +80,18 @@ class TestSaveFile(object):
         created_file = target_dir.listdir()[0]
         assert created_file.read() == context['data']
 
-    @pytest.mark.xfail
-    def test_folder_not_found(self, context):
-        assert 0, 'write the test'
+    def test_folder_not_found(self, context, tmpdir):
+        context['data'] = b'test_data'
+        context['filename'] = 'test_pic.jpg'
+
+        target_dir = tmpdir.join('images')
+        task = tasks.save_file(folder=target_dir.strpath,
+                               default_extension='.jpg')
+
+        with pytest.raises(IOError) as exc_info:
+            task(context)
+
+        assert exc_info.value.errno == 2
 
     @pytest.mark.xfail
     def test_folder_access_denied(self, context):
