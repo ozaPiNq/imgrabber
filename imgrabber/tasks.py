@@ -1,3 +1,4 @@
+import os
 import re
 import requests
 
@@ -53,4 +54,10 @@ def save_file(context, folder):
     :param data: data to be saved to file
     :return:
     """
-    pass
+    data = context['data']
+    filename = context['filename']
+
+    abs_filename = os.path.join(folder, filename)
+
+    with open(abs_filename, 'wb') as f:
+        f.write(data)

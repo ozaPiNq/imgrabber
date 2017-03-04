@@ -56,9 +56,16 @@ class TestGetFilename(object):
 
 
 class TestSaveFile(object):
-    @pytest.mark.xfail
-    def test_file_with_filename(self, context):
-        assert 0, 'write the test'
+    def test_file_with_filename(self, context, tmpdir):
+        context['data'] = b'test_data'
+        context['filename'] = 'simple_file.txt'
+
+        target_dir = tmpdir.mkdir('images')
+        task = tasks.save_file(folder=target_dir.strpath)
+
+        task(context)
+
+        assert target_dir.join(context['filename']).read() == context['data']
 
     @pytest.mark.xfail
     def test_file_without_filename(self, context):
