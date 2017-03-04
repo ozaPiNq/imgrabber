@@ -67,9 +67,18 @@ class TestSaveFile(object):
 
         assert target_dir.join(context['filename']).read() == context['data']
 
-    @pytest.mark.xfail
-    def test_file_without_filename(self, context):
-        assert 0, 'write the test'
+    def test_file_without_filename(self, context, tmpdir):
+        context['data'] = b'test_data'
+        context['filename'] = ''
+
+        target_dir = tmpdir.mkdir('images')
+        task = tasks.save_file(folder=target_dir.strpath,
+                               default_extension='.jpg')
+
+        task(context)
+
+        created_file = target_dir.listdir()[0]
+        assert created_file.read() == context['data']
 
     @pytest.mark.xfail
     def test_folder_not_found(self, context):

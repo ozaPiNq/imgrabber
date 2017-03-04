@@ -1,5 +1,6 @@
 import os
 import re
+import uuid
 import requests
 
 from urlparse import urlparse
@@ -46,16 +47,23 @@ def get_filename(context):
 
 
 @task(depends=['data', 'filename'])
-def save_file(context, folder):
+def save_file(context, folder, default_extension=''):
     """
     Save file to disk
     :param folder: folder for file
+    :param default_extension: default extension for files with empty filenames
     :param filename: file name
     :param data: data to be saved to file
-    :return:
     """
+    def random_name():
+        """ For now it uses uuid.uuid4() """
+        return str(uuid.uuid4())
+
     data = context['data']
     filename = context['filename']
+
+    if not filename:
+        filename = random_name() + default_extension
 
     abs_filename = os.path.join(folder, filename)
 
