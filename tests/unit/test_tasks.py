@@ -143,6 +143,12 @@ class TestReadfile(object):
 
         assert new_context['items'] == lines
 
-    @pytest.mark.xfail
-    def test_readfile_not_found(self):
-        assert 0, 'write the test'
+    def test_readfile_not_found(self, context):
+        context['filename'] = '/not/existing/path'
+
+        task = tasks.read_file()
+
+        with pytest.raises(IOError) as exc_info:
+            task(context)
+
+        assert exc_info.value.errno == 2
