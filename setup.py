@@ -8,7 +8,7 @@ setup(
     author_email="n.sedelnikov@gmail.com",
     packages=find_packages(),
     install_requires=[
-        'pipeliner>=0.0.3',
+        'pipeliner>=0.0.4',
     ],
     setup_requires=['pytest-runner'],
     tests_require=[
