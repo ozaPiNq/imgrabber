@@ -92,3 +92,15 @@ def foreach(context, func):
         pipeline.run()
 
     context.current_pipeline.wait_for(pipelines)
+
+
+@task(depends=['filename'], provides=['items'])
+def read_file(context):
+    filename = context.get('filename')
+
+    lines = []
+    with open(filename, 'r') as f:
+        for line in f:
+            lines.append(line.rstrip('\n'))
+
+    context['items'] = lines

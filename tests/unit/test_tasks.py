@@ -120,3 +120,29 @@ class TestForeach(object):
 
         assert mock_func1.called
         assert mock_func2.called
+
+
+class TestReadfile(object):
+    def test_readfile_success(self, context, tmpdir):
+        lines = [
+            'http://localhost/image1.jpg ',
+            'http://localhost/image2.jpg      ',
+            'http://localhost/image3.jpg',
+            'http://localhost/image4.jpg',
+            '# some not url content',
+        ]
+
+        f = tmpdir.join('input.txt')
+        f.write('\n'.join(lines))
+
+        context['filename'] = f.strpath
+
+        task = tasks.read_file()
+
+        new_context = task(context)
+
+        assert new_context['items'] == lines
+
+    @pytest.mark.xfail
+    def test_readfile_not_found(self):
+        assert 0, 'write the test'
