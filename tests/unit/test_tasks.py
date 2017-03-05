@@ -6,7 +6,7 @@ from imgrabber import tasks
 class TestFetchUrl(object):
     def test_fetches_url(self, context, requests_get):
         expected_response = {
-            'text': 'sample_data',
+            'content': 'sample_data',
             'headers': {
                 'Server': 'mocked_server',
                 'Content-Type': 'image/jpeg'
@@ -18,7 +18,7 @@ class TestFetchUrl(object):
 
         new_context = tasks.fetch_url()(context)
 
-        assert new_context['data'] == expected_response['text']
+        assert new_context['data'] == expected_response['content']
         assert new_context['headers'] == expected_response['headers']
 
 

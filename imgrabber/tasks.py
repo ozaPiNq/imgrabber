@@ -20,7 +20,7 @@ def fetch_url(context):
     result = requests.get(url)
 
     context['headers'] = result.headers
-    context['data'] = result.text
+    context['data'] = result.content
 
 
 @task(depends=['url', 'headers'], provides=['filename'])
