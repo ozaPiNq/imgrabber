@@ -96,6 +96,11 @@ def foreach(context, func):
 
 @task(depends=['filename'], provides=['items'])
 def read_file(context):
+    """
+    Read lines from file with filename and stores them in items
+    :param filename: file name to read
+    :return: file lines
+    """
     filename = context.get('filename')
 
     lines = []
