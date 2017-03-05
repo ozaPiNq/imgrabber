@@ -6,7 +6,7 @@ from pipeliner.context import Context
 
 @pytest.fixture
 def context():
-    return Context()
+    return Context(current_pipeline=None)
 
 
 @pytest.fixture
