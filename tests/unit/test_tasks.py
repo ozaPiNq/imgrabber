@@ -1,6 +1,8 @@
 import pytest
 
 from imgrabber import tasks
+from pipeliner import Pipeline, task
+from mock import MagicMock
 
 
 class TestFetchUrl(object):
@@ -96,3 +98,25 @@ class TestSaveFile(object):
     @pytest.mark.xfail
     def test_folder_access_denied(self, context):
         assert 0, 'write the test'
+
+
+class TestForeach(object):
+    def test_foreach(self):
+        mock_func1 = MagicMock()
+        mock_func2 = MagicMock()
+
+        @task()
+        def test_func(context):
+            cb = context.get('cb')
+            cb()
+
+        def create_pipeline(item):
+            return Pipeline(test_func(), cb=item)
+
+        Pipeline(
+            tasks.foreach(create_pipeline),
+            items=[mock_func1, mock_func2]
+        ).run(wait=True)
+
+        assert mock_func1.called
+        assert mock_func2.called

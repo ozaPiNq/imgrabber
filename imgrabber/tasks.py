@@ -11,6 +11,7 @@ from pipeliner import task
 def fetch_url(context):
     """
     Fetch URL using HTTP GET request
+
     :param url: URL to be fetched
 
     :return: Returns HTTP headers and HTTP payload (data)
@@ -27,6 +28,7 @@ def fetch_url(context):
 def get_filename(context):
     """
     Get filename from Content-Disposition header or URL
+
     :param url: fetched file url
     :param headers: fetched URL headers
 
@@ -50,6 +52,7 @@ def get_filename(context):
 def save_file(context, folder, default_extension=''):
     """
     Save file to disk
+
     :param folder: folder for file
     :param default_extension: default extension for files with empty filenames
     :param filename: file name
@@ -69,3 +72,23 @@ def save_file(context, folder, default_extension=''):
 
     with open(abs_filename, 'wb') as f:
         f.write(data)
+
+
+@task(depends=['items'])
+def foreach(context, func):
+    """
+    For each element in items starts new Pipeline, returned from func,
+    then waits for pipelines to finish
+
+    :param items: iterable of items
+    :param func: function returning Pipeline object
+    """
+    items = context.get('items')
+
+    pipelines = []
+    for item in items:
+        pipeline = func(item)
+        pipelines.append(pipeline)
+        pipeline.run()
+
+    context.current_pipeline.wait_for(pipelines)
