@@ -135,18 +135,14 @@ class TestReadfile(object):
         f = tmpdir.join('input.txt')
         f.write('\n'.join(lines))
 
-        context['filename'] = f.strpath
-
-        task = tasks.read_file()
+        task = tasks.read_file(input_file=f.strpath)
 
         new_context = task(context)
 
         assert new_context['items'] == lines
 
     def test_readfile_not_found(self, context):
-        context['filename'] = '/not/existing/path'
-
-        task = tasks.read_file()
+        task = tasks.read_file(input_file='/not/existing/path')
 
         with pytest.raises(IOError) as exc_info:
             task(context)

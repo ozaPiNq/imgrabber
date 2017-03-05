@@ -94,17 +94,15 @@ def foreach(context, func):
     context.current_pipeline.wait_for(pipelines)
 
 
-@task(depends=['filename'], provides=['items'])
-def read_file(context):
+@task(provides=['items'])
+def read_file(context, input_file=''):
     """
     Read lines from file with filename and stores them in items
-    :param filename: file name to read
+    :param input_file: file name to read
     :return: file lines
     """
-    filename = context.get('filename')
-
     lines = []
-    with open(filename, 'r') as f:
+    with open(input_file, 'r') as f:
         for line in f:
             lines.append(line.rstrip('\n'))
 
