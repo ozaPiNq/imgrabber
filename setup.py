@@ -18,4 +18,9 @@ setup(
     ],
     include_package_data=True,
     zip_safe=True,
+    entry_points={
+        'console_scripts': [
+            'imgrabber = imgrabber.app:main',
+        ],
+    },
 )
